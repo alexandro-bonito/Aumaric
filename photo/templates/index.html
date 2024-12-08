@@ -1,0 +1,402 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio Photo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+  <style>
+    /* Ajoute les styles ici (cf. CSS plus bas) */
+  </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+          <img src="{% static 'logo.jpg' %}" alt="Logo">
+        </div>
+        <!-- Menu Button (appears on mobile) -->
+        <div class="menu-btn" id="menu-btn">
+          <i class="fas fa-bars"></i>
+        </div>
+        <nav id="nav" class="nav">
+          <ul>
+            <li><a href="#">Accueil</a></li>
+            {% for category in categories %}
+            <li>
+              <a href="#">{{ category.name }}</a>
+              <ul class="submenu">
+                {% for subcategory in category.subcategories.all %}
+                <li><a href="#">{{ subcategory.name }}</a></li>
+                {% endfor %}
+              </ul>
+            </li>
+            {% endfor %}
+          </ul>
+        </nav>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-snapchat"></i></a>
+        </div>
+      </header>
+      
+
+  <main>
+    <section class="hero" data-aos="fade-up">
+      <h1>Bienvenue Chez Aumaric</h1>
+      <p>Immortalisez vos moments les plus précieux avec nous.</p>
+    </section>
+  
+    <section class="photo-grid" data-aos="fade-up">
+      <h2>Galerie</h2>
+      <div class="grid">
+        {% for photo in gallery_photos %}
+        <div class="photo" data-aos="fade-up">
+          <img src="{{ photo.image.url }}" alt="{{ photo.title }}">
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+  
+    <section class="blog" data-aos="fade-left">
+      <h2>Blog</h2>
+      {% for photo in blog_photos %}
+      <article class="blog-post" data-aos="fade-left">
+        <img src="{{ photo.image.url }}" alt="{{ photo.title }}">
+        <div class="content">
+          <h2 style="color: goldenrod;">{{ photo.title }}</h2>
+          <p >{{ photo.description }}</p>
+        </div>
+      </article>
+      {% endfor %}
+    </section>
+  </main>
+  
+  <!-- Inclure le script AOS -->
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      AOS.init({
+        duration: 800, // Durée de l'animation
+        easing: 'ease-in-out', // Courbe d'accélération
+        once: true // Animer les éléments uniquement lors du premier affichage
+      });
+    });
+  </script>
+  
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-section">
+        <h3>À propos</h3>
+        <p>Nous sommes un studio photo professionnel dédié à capturer vos moments spéciaux avec passion et expertise.</p>
+      </div>
+      <div class="footer-section">
+        <h3>Contact</h3>
+        <ul>
+          <li><strong>Adresse :</strong> 123 Rue Exemple, Ouagadougou</li>
+          <li><strong>Téléphone :</strong> +226 57-55-87-96</li>
+          <li><strong>Email :</strong> apt.get01bf@gmail.com</li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Remerciements</h3>
+        <p>Merci à tous nos clients pour leur confiance. Votre satisfaction est notre priorité.</p>
+      </div>
+      <div class="footer-section">
+        <h3>Suivez-nous</h3>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-snapchat"></i></a>
+        </div>
+      </div>
+    </div>
+    <p class="footer-note">&copy; 2024 Studio Photo. Tous droits réservés.</p>
+  </footer>
+
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      AOS.init(); // Initialise AOS pour les animations
+    });
+  </script>
+</body>
+</html>
+<style>
+
+    /* Reset */
+body, h1, h2, p, ul, li, a, img, form, input, button {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  color: #7c7b74;
+  background-color: #f8f8f8;
+}
+
+/* Global styles for header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #f4f4f4;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+}
+
+nav ul li {
+  position: relative;
+  margin: 0 15px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #e5e918;
+  font-weight: bold;
+}
+
+.submenu {
+  display: none;
+  position: absolute;
+  background: #fff;
+  top: 100%;
+  left: 0;
+  padding: 10px 0;
+  border: 1px solid #ddd;
+  z-index: 999;
+  border: none;
+}
+
+nav ul li:hover .submenu {
+  display: block;
+}
+
+.submenu li {
+  padding: 5px 20px;
+}
+
+.submenu li a {
+  color: #a09d02;
+}
+
+/* Mobile menu styles */
+.menu-btn {
+  display: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+/* Social icons */
+.social-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.social-icons a {
+  color: #333;
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+/* Media query for mobile */
+@media screen and (max-width: 768px) {
+  nav ul {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    background: #fff;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  nav ul li {
+    margin: 10px 0;
+  }
+
+  .menu-btn {
+    display: block;
+  }
+
+  nav ul li a {
+    font-size: 1.2rem;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    color: #333;
+  }
+
+  .submenu {
+    position: relative;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .submenu li a {
+    padding: 10px;
+    width: 100%;
+    color: #333;
+  }
+
+  nav.active ul {
+    display: flex;
+  }
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 50px;
+  background: #fdf9f9;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: goldenrod;
+}
+
+.hero p {
+  font-size: 1.2rem;
+}
+
+/* Photo Grid */
+/* Photo Grid */
+.photo-grid .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Ajuste automatiquement les colonnes */
+  gap: 10px; /* Espacement entre les images */
+  margin: 20px;
+}
+
+.photo {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px; /* Coins arrondis pour un style uniforme */
+  width: 100%; /* Prend tout l'espace de la colonne */
+  aspect-ratio: 1 / 1; /* Assure un carré parfait */
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ajuste l'image pour qu'elle remplisse parfaitement le conteneur */
+  display: block; /* Supprime les marges ou espaces indésirables */
+  border-radius: inherit; /* Respecte les coins arrondis du conteneur */
+}
+
+
+/* Footer */
+footer {
+  background: #333;
+  color: #fff;
+  padding: 40px 20px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.footer-section h3 {
+  margin-bottom: 15px;
+}
+
+.footer-section ul {
+  list-style: none;
+}
+
+.footer-section ul li {
+  margin-bottom: 10px;
+}
+
+.footer-note {
+  text-align: center;
+  margin-top: 20px;
+}
+
+
+/* Blog */
+.blog {
+  padding: 100px;
+}
+
+.blog-post {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.blog-post img {
+  width: 60%;
+  border-radius: 10px;
+  height: 150px;
+}
+
+.blog-post .content {
+  padding: 20px;
+}
+
+
+
+
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  nav ul {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Blog */
+.blog {
+  padding: 20px;
+}
+}
+
+    
+</style>
+<script>
+    document.getElementById("menu-btn").addEventListener("click", function() {
+  const nav = document.getElementById("nav");
+  nav.classList.toggle("active");
+});
+
+</script>
